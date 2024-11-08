@@ -96,14 +96,14 @@ namespace TechSupport.Views
             textBox_ProductReleaseDate.Location = new Point(182, 198);
             textBox_ProductReleaseDate.Name = "textBox_ProductReleaseDate";
             textBox_ProductReleaseDate.Size = new Size(125, 27);
-            textBox_ProductReleaseDate.TabIndex = 6;
+            textBox_ProductReleaseDate.TabIndex = 7;
             // 
             // textBox_ProductVersion
             // 
             textBox_ProductVersion.Location = new Point(182, 147);
             textBox_ProductVersion.Name = "textBox_ProductVersion";
             textBox_ProductVersion.Size = new Size(125, 27);
-            textBox_ProductVersion.TabIndex = 7;
+            textBox_ProductVersion.TabIndex = 6;
             // 
             // button_OK
             // 
@@ -114,7 +114,7 @@ namespace TechSupport.Views
             button_OK.TabIndex = 8;
             button_OK.Text = "&OK";
             button_OK.UseVisualStyleBackColor = true;
-            button_OK.Click += this.button_OK_Click;
+            button_OK.Click += button_OK_Click;
             // 
             // button_Cancel
             // 

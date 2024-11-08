@@ -38,9 +38,51 @@ namespace TechSupport.Views
             // Subscribe to the FormClosed event
             addEditProductForm.FormClosed += AddEditProductForm_FormClosed;
 
+            // Set the title of the form
+            addEditProductForm.Text = "Add Product";
+
             //Show second form
             addEditProductForm.Show();
         }
+
+
+        private void btn_Modify_Click(object sender, EventArgs e)
+        {
+            if (listBox_Data.SelectedIndex != -1)
+            {
+                //Turn value into a string to pass on to second form
+                string selectedItem = listBox_Data.SelectedItem.ToString();
+
+                //Create an instance of AddEditProductGUI form
+                frm_Add_Edit addEditProductForm = new frm_Add_Edit();
+                // Subscribe to the FormClosed event
+                addEditProductForm.FormClosed += AddEditProductForm_FormClosed;
+                addEditProductForm.Text = "Modify Product";
+
+                //Show second form
+                addEditProductForm.Show();
+
+
+
+
+            }
+            else
+            {
+                MessageBox.Show("Please select a valid item from the list before clicking Modify");
+            }
+        }
+
+        private void btn_Remove_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Remove Clicked!");
+        }
+
+        private void btn_Exit_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Exit clicked!");
+        }
+
+
 
         /// <summary>
         /// Refresh the main page when the second form closes
@@ -56,21 +98,6 @@ namespace TechSupport.Views
             {
                 listBox_Data.Items.Add(product.ToString());
             }
-        }
-
-        private void btn_Modify_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Modify Clicked!");
-        }
-
-        private void btn_Remove_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Remove Clicked!");
-        }
-
-        private void btn_Exit_Click(object sender, EventArgs e)
-        {
-            MessageBox.Show("Exit clicked!");
         }
     }
 }
