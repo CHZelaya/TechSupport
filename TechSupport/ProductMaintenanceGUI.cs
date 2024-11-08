@@ -30,17 +30,32 @@ namespace TechSupport.Views
             }
         }
 
-
-
         // Button will bring up second form with empty fields.
         private void btn_Add_Click(object sender, EventArgs e)
         {
             //Create an instance of AddEditProductGUI form
-
             frm_Add_Edit addEditProductForm = new frm_Add_Edit();
+            // Subscribe to the FormClosed event
+            addEditProductForm.FormClosed += AddEditProductForm_FormClosed;
 
             //Show second form
             addEditProductForm.Show();
+        }
+
+        /// <summary>
+        /// Refresh the main page when the second form closes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void AddEditProductForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // Refresh the product list in the ListBox
+            listBox_Data.Items.Clear();
+            var products = _productController.GetProducts();
+            foreach (var product in products)
+            {
+                listBox_Data.Items.Add(product.ToString());
+            }
         }
 
         private void btn_Modify_Click(object sender, EventArgs e)

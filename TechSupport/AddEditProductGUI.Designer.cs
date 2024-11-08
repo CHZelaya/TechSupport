@@ -1,4 +1,5 @@
-﻿namespace TechSupport.Views
+﻿
+namespace TechSupport.Views
 {
     partial class frm_Add_Edit
     {
@@ -113,6 +114,7 @@
             button_OK.TabIndex = 8;
             button_OK.Text = "&OK";
             button_OK.UseVisualStyleBackColor = true;
+            button_OK.Click += this.button_OK_Click;
             // 
             // button_Cancel
             // 
@@ -144,6 +146,8 @@
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
         #endregion
 
