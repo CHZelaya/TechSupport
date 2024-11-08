@@ -1,6 +1,7 @@
-﻿namespace TechSupport
+﻿
+namespace TechSupport.Views
 {
-    partial class Form1
+    partial class ProductMaintenanceGUI
     {
         /// <summary>
         ///  Required designer variable.
@@ -57,6 +58,7 @@
             btn_Add.TabIndex = 1;
             btn_Add.Text = "&Add";
             btn_Add.UseVisualStyleBackColor = true;
+            btn_Add.Click += btn_Add_Click;
             // 
             // btn_Modify
             // 
@@ -66,6 +68,7 @@
             btn_Modify.TabIndex = 2;
             btn_Modify.Text = "&Modify";
             btn_Modify.UseVisualStyleBackColor = true;
+            btn_Modify.Click += btn_Modify_Click;
             // 
             // btn_Remove
             // 
@@ -75,6 +78,7 @@
             btn_Remove.TabIndex = 3;
             btn_Remove.Text = "&Remove";
             btn_Remove.UseVisualStyleBackColor = true;
+            btn_Remove.Click += btn_Remove_Click;
             // 
             // btn_Exit
             // 
@@ -84,6 +88,7 @@
             btn_Exit.TabIndex = 4;
             btn_Exit.Text = "&Exit";
             btn_Exit.UseVisualStyleBackColor = true;
+            btn_Exit.Click += btn_Exit_Click;
             // 
             // label1
             // 
@@ -121,7 +126,7 @@
             label4.TabIndex = 8;
             label4.Text = "Release Date";
             // 
-            // Form1
+            // ProductMaintenanceGUI
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -135,12 +140,14 @@
             Controls.Add(btn_Modify);
             Controls.Add(btn_Add);
             Controls.Add(listBox_Data);
-            Name = "Form1";
-            Text = "Form1";
+            Name = "ProductMaintenanceGUI";
+            Text = "Product Maintenance";
             Load += Form1_Load;
             ResumeLayout(false);
             PerformLayout();
         }
+
+
 
         #endregion
 
