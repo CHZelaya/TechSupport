@@ -41,15 +41,17 @@
             // 
             // listBox_Data
             // 
+            listBox_Data.Font = new Font("Courier New", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);
             listBox_Data.FormattingEnabled = true;
+            listBox_Data.ItemHeight = 17;
             listBox_Data.Location = new Point(46, 37);
             listBox_Data.Name = "listBox_Data";
-            listBox_Data.Size = new Size(717, 344);
+            listBox_Data.Size = new Size(717, 225);
             listBox_Data.TabIndex = 0;
             // 
             // btn_Add
             // 
-            btn_Add.Location = new Point(46, 402);
+            btn_Add.Location = new Point(46, 303);
             btn_Add.Name = "btn_Add";
             btn_Add.Size = new Size(94, 42);
             btn_Add.TabIndex = 1;
@@ -58,7 +60,7 @@
             // 
             // btn_Modify
             // 
-            btn_Modify.Location = new Point(166, 402);
+            btn_Modify.Location = new Point(166, 303);
             btn_Modify.Name = "btn_Modify";
             btn_Modify.Size = new Size(94, 42);
             btn_Modify.TabIndex = 2;
@@ -67,7 +69,7 @@
             // 
             // btn_Remove
             // 
-            btn_Remove.Location = new Point(285, 402);
+            btn_Remove.Location = new Point(285, 303);
             btn_Remove.Name = "btn_Remove";
             btn_Remove.Size = new Size(94, 42);
             btn_Remove.TabIndex = 3;
@@ -76,7 +78,7 @@
             // 
             // btn_Exit
             // 
-            btn_Exit.Location = new Point(669, 402);
+            btn_Exit.Location = new Point(669, 303);
             btn_Exit.Name = "btn_Exit";
             btn_Exit.Size = new Size(94, 42);
             btn_Exit.TabIndex = 4;
@@ -123,7 +125,7 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(820, 470);
+            ClientSize = new Size(815, 378);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(label2);
