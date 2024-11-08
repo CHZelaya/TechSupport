@@ -1,9 +1,8 @@
 # TechSupport
-# TechSupport
 
-# Product Maintenance Application
+## Product Maintenance Application
 ✅ (Copy-Paste Checkmark as you complete tasks)
-## To-Do List
+### To-Do List
 1. **Set Up Entity Framework Core Database First**  
   - ✅ Create Models folder for generated classes. 
   - ✅ Ensure correct setup of Entity Framework in the project.
@@ -40,7 +39,7 @@
   - ❌ Test the application thoroughly to ensure all features work as expected.
   - ❌ Zip the entire project folder and submit to the appropriate Dropbox on D2L.
 
-## Recommended Task Order
+### Recommended Task Order
 
 1. **Set Up Entity Framework Core Database First**  
    - **Priority**: High  
