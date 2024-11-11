@@ -19,13 +19,12 @@ namespace TechSupport.Views
         public frm_Add_Edit(string? productCode, string? name, string? version, string? releaseDate)
         {
             InitializeComponent();
-            _productCode = productCode;
-            _name = name;
-            _version = version;
-            _releaseDate = releaseDate;
+            _productCode = productCode ?? string.Empty;
+            _name = name ?? string.Empty;
+            _version = version ?? string.Empty;
+            _releaseDate = releaseDate ?? string.Empty;
             var context = new TechSupportContext();
             _productController = new ProductController(context);
-
         }
         //Set the Form depending on Form title
         private void frm_Add_Edit_Load(object sender, EventArgs e)
@@ -36,15 +35,16 @@ namespace TechSupport.Views
                 textBox_ProductCode.Text = _productCode;
                 textBox_ProductName.Text = _name;
                 textBox_ProductVersion.Text = _version;
-                textBox_ProductReleaseDate.Text = _releaseDate;
+                dtp_ReleaseDate.Text = _releaseDate;
                 //disable ProductCode Textbox
                 textBox_ProductCode.Enabled = false;
             }
             else
             {
+                textBox_ProductCode.Enabled = true;
                 textBox_ProductCode.Clear();
                 textBox_ProductName.Clear();
-                textBox_ProductReleaseDate.Clear();
+                dtp_ReleaseDate.ResetText();
                 textBox_ProductVersion.Clear();
             }
         }
@@ -71,18 +71,12 @@ namespace TechSupport.Views
             string ProductCode = textBox_ProductCode.Text;
             string Name = textBox_ProductName.Text;
             decimal Version;
-            DateTime ReleaseDate;
+            DateTime ReleaseDate = dtp_ReleaseDate.Value;
 
             // Parse the Version and ReleaseDate with error handling
             if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
             {
                 MessageBox.Show("Please enter a valid version number.");
-                return;
-            }
-
-            if (!DateTime.TryParse(textBox_ProductReleaseDate.Text, out ReleaseDate))
-            {
-                MessageBox.Show("Please enter a valid release date.");
                 return;
             }
 
@@ -100,7 +94,6 @@ namespace TechSupport.Views
             try
             {
                 _productController.AddProduct(newProduct); // AddProduct method is in the controller
-                MessageBox.Show("Product Added Successfully!");
                 this.Close();
             }
             catch (Exception ex)
@@ -111,7 +104,36 @@ namespace TechSupport.Views
 
         private void HandleModifyProduct()
         {
+            string ProductCode = textBox_ProductCode.Text;
+            string Name = textBox_ProductName.Text;
+            decimal Version;
+            DateTime ReleaseDate = dtp_ReleaseDate.Value;
 
+            // Parse the Version and ReleaseDate with error handling
+            if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
+            {
+                MessageBox.Show("Please enter a valid version number.");
+                return;
+            }
+
+            //Creating a new Product instance
+            Product productToUpdate = new Product
+            {
+                ProductCode = ProductCode,
+                Name = Name,
+                Version = Version,
+                ReleaseDate = ReleaseDate
+            };
+
+            try
+            {
+                _productController.UpdateProduct(productToUpdate);
+                this.Close();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"There was an error updating the selected item to the database: {ex}");
+            }
         }
 
 

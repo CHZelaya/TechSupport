@@ -39,6 +39,7 @@ namespace TechSupport.Views
             textBox_ProductVersion = new TextBox();
             button_OK = new Button();
             button_Cancel = new Button();
+            dtp_ReleaseDate = new DateTimePicker();
             SuspendLayout();
             // 
             // label1
@@ -93,7 +94,7 @@ namespace TechSupport.Views
             // 
             // textBox_ProductReleaseDate
             // 
-            textBox_ProductReleaseDate.Location = new Point(182, 198);
+            textBox_ProductReleaseDate.Location = new Point(152, 334);
             textBox_ProductReleaseDate.Name = "textBox_ProductReleaseDate";
             textBox_ProductReleaseDate.Size = new Size(125, 27);
             textBox_ProductReleaseDate.TabIndex = 7;
@@ -126,11 +127,19 @@ namespace TechSupport.Views
             button_Cancel.Text = "&Cancel";
             button_Cancel.UseVisualStyleBackColor = true;
             // 
+            // dtp_ReleaseDate
+            // 
+            dtp_ReleaseDate.Location = new Point(182, 200);
+            dtp_ReleaseDate.Name = "dtp_ReleaseDate";
+            dtp_ReleaseDate.Size = new Size(250, 27);
+            dtp_ReleaseDate.TabIndex = 10;
+            // 
             // frm_Add_Edit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(454, 373);
+            Controls.Add(dtp_ReleaseDate);
             Controls.Add(button_Cancel);
             Controls.Add(button_OK);
             Controls.Add(textBox_ProductVersion);
@@ -162,5 +171,6 @@ namespace TechSupport.Views
         private TextBox textBox_ProductVersion;
         private Button button_OK;
         private Button button_Cancel;
+        private DateTimePicker dtp_ReleaseDate;
     }
 }

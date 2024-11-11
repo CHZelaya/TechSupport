@@ -42,7 +42,7 @@ namespace TechSupport.Views
 
         private void btn_Exit_Click(object sender, EventArgs e)
         {
-            HandlgeExitBtnClick();
+            HandleExitButton();
         }
 
 
@@ -57,7 +57,7 @@ namespace TechSupport.Views
             listBox_Data.Items.Clear();
 
             // Retrieve products from the database
-            var products = _productController.GetProducts(); // Grabbing Products from DB and assigning to products.
+            var products = ProductController.GetProducts(); // Grabbing Products from DB and assigning to products.
 
             // Add each product to the ListBox using the overridden ToString() method
             foreach (var product in products)
@@ -71,17 +71,6 @@ namespace TechSupport.Views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void AddEditProductForm_FormClosed(object? sender, FormClosedEventArgs e)
-        {
-            // Refresh the product list in the ListBox
-            listBox_Data.Items.Clear();
-            var products = _productController.GetProducts();
-            foreach (var product in products)
-            {
-                listBox_Data.Items.Add(product.ToString());
-            }
-            MessageBox.Show("ListBox refreshed with updated data!");
-        }
 
 
 
@@ -110,25 +99,13 @@ namespace TechSupport.Views
 
             if (selectedItem != null)
             {
-
-
-
-                // Define the total widths for each field
-                int codeWidth = 15;    // Width for ProductCode
-                int nameWidth = 40;    // Width for Name
-                int versionWidth = 11;  // Width for Version
-                int dateWidth = 15;     // Width for ReleaseDate
-
-
-                // Extract the ProductCode, Name, Version, and ReleaseDate from the selected item
-                string productCode = selectedItem.Substring(0, codeWidth).Trim(); // First 15 characters for ProductCode
-                string name = selectedItem.Substring(codeWidth, nameWidth).Trim(); // Next 40 characters for Name
-                string version = selectedItem.Substring(codeWidth + nameWidth, versionWidth).Trim(); // Next 11 characters for Version
-                string releaseDate = selectedItem.Substring(codeWidth + nameWidth + versionWidth, dateWidth).Trim(); // Next 15 characters for ReleaseDate
+                string productCode, name, version, releaseDate;
+                TrimWhiteSpace(selectedItem, out productCode, out name, out version, out releaseDate);
 
                 //Create an instance of AddEditProductGUI form
                 frm_Add_Edit addEditProductForm = new frm_Add_Edit(productCode, name, version, releaseDate);
-                // Subscribe to the FormClosed event
+
+                // Subscribe to the FormClosed event to trigger Refreshes of the main page
                 addEditProductForm.FormClosed += AddEditProductForm_FormClosed;
                 addEditProductForm.Text = "Modify Product";
                 //Show second form
@@ -140,16 +117,92 @@ namespace TechSupport.Views
             }
         }
 
-
-
-        private static void HandlgeExitBtnClick()
+        private static void TrimWhiteSpace(string? selectedItem, out string productCode, out string name, out string version, out string releaseDate)
         {
-            MessageBox.Show("Exit clicked!");
+            // Define the total widths for each field
+            int codeWidth = 15;    // Width for ProductCode
+            int nameWidth = 40;    // Width for Name
+            int versionWidth = 11;  // Width for Version
+            int dateWidth = 15;     // Width for ReleaseDate
+
+
+            // Extract the ProductCode, Name, Version, and ReleaseDate from the selected item
+            productCode = selectedItem.Substring(0, codeWidth).Trim();
+            name = selectedItem.Substring(codeWidth, nameWidth).Trim();
+            version = selectedItem.Substring(codeWidth + nameWidth, versionWidth).Trim();
+            releaseDate = selectedItem.Substring(codeWidth + nameWidth + versionWidth, dateWidth).Trim();
+            // Next 15 characters for ReleaseDate
         }
 
-        private static void HandleRemoveBtnClick()
+        private static void HandleExitButton()
         {
-            MessageBox.Show("Remove Clicked!");
+            DialogResult result = MessageBox.Show("Are you sure you want to exit the application?",
+                "Exit Confirmation",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            //Check user response
+            if (result == DialogResult.Yes)
+            {
+                Application.Exit();
+            }
         }
+
+        private void HandleRemoveBtnClick()
+        {
+            string? selectedItem = listBox_Data.SelectedItem?.ToString();
+            string productCode;
+
+            if (selectedItem != null)
+            {
+                int codeWidth = 15;    // Width for ProductCode
+                productCode = selectedItem.Substring(0, codeWidth).Trim();
+
+                try
+                {
+                    DialogResult result = MessageBox.Show("Are you sure you wish to delete this item?", "Delete Confirmation",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Exclamation);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        Product itemToBeDeleted = _productController.GetProductByCode(productCode);
+                        if (itemToBeDeleted != null)
+                        {
+                            _productController.DeleteProduct(itemToBeDeleted);
+                            MessageBox.Show("Selected Item Deleted", "Item Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            PopulateListBox();
+
+                        }
+                        else
+                        {
+                            MessageBox.Show("Product not Found");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occured: {ex}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select an item before attempting to remove it from the list");
+            }
+        }
+
+
+
+        private void AddEditProductForm_FormClosed(object? sender, FormClosedEventArgs e)
+        {
+            // Refresh the product list in the ListBox
+            listBox_Data.Items.Clear();
+            var products = ProductController.GetProducts();
+            foreach (var product in products)
+            {
+                listBox_Data.Items.Add(product.ToString());
+            }
+        }
+
     }
 }

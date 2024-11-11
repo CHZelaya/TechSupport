@@ -47,7 +47,7 @@ namespace TechSupport.Views
             listBox_Data.ItemHeight = 17;
             listBox_Data.Location = new Point(46, 37);
             listBox_Data.Name = "listBox_Data";
-            listBox_Data.Size = new Size(717, 225);
+            listBox_Data.Size = new Size(745, 225);
             listBox_Data.TabIndex = 0;
             // 
             // btn_Add
@@ -120,7 +120,7 @@ namespace TechSupport.Views
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(667, 13);
+            label4.Location = new Point(695, 13);
             label4.Name = "label4";
             label4.Size = new Size(96, 20);
             label4.TabIndex = 8;

@@ -17,9 +17,12 @@
         /// Fetch's products from the database
         /// </summary>
         /// <returns>Returns a list of of the Products from the DB.</returns>
-        public List<Product> GetProducts()
+        public static List<Product> GetProducts()
         {
-            return _context.Products.ToList();
+            using (var context = new TechSupportContext())
+            {
+                return context.Products.ToList();
+            }
         }
 
         /// <summary>
@@ -73,6 +76,27 @@
             _context.Products.Remove(product);
             //Save the changes to the database.
             _context.SaveChanges();
+        }
+
+        public Product GetProductByCode(string productCode)
+        {
+            if (string.IsNullOrEmpty(productCode))
+            {
+                throw new ArgumentNullException(nameof(productCode), "Product Code cannot be null or empty");
+            }
+            else
+            {
+                // Retrieve the product from the database
+                var product = _context.Products.FirstOrDefault(p => p.ProductCode == productCode);
+
+                if (product == null)
+                {
+                    throw new KeyNotFoundException($"Product with code '{productCode}' not found.");
+                }
+
+                return product;
+            }
+
         }
     }
 }
