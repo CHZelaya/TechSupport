@@ -143,6 +143,7 @@ namespace TechSupport.Views
             Controls.Add(label1);
             Name = "frm_Add_Edit";
             Text = "Add/Edit Product";
+            Load += frm_Add_Edit_Load;
             ResumeLayout(false);
             PerformLayout();
         }
