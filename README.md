@@ -17,8 +17,8 @@
 4. **Develop Second Form**  
   - ✅ Design modal form for Add and Modify operations.
   - ✅ Display appropriate title and input fields based on the operation.
-  - ❌ Implement data validation:
-    - ❌ Limit character input in text boxes.
+  - ✅ Implement data validation:
+    - ✅ Limit character input in text boxes.
     - ❌ Validate the release date format.
     - ✅ Disable Product Code field during modification.
 
