@@ -20,7 +20,7 @@
   - ❌ Implement data validation:
     - ❌ Limit character input in text boxes.
     - ❌ Validate the release date format.
-    - ❌ Disable Product Code field during modification.
+    - ✅ Disable Product Code field during modification.
 
 5. **Apply Professional Design**  
   - ✅ Ensure a clear and user-friendly interface.
