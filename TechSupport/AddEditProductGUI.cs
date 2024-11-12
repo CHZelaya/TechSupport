@@ -1,4 +1,5 @@
-﻿using TechSupport.Controllers;
+﻿using System.ComponentModel;
+using TechSupport.Controllers;
 using TechSupport.Models;
 
 namespace TechSupport.Views
@@ -19,12 +20,27 @@ namespace TechSupport.Views
         public frm_Add_Edit(string? productCode, string? name, string? version, string? releaseDate)
         {
             InitializeComponent();
+
+            // Implementing Null coalescing operator
+            // If _productCode is not null, it will be assigned the value of productCode
+            // If it is null, it will be assigned an empty string.
+            // The variables will never be null.
             _productCode = productCode ?? string.Empty;
             _name = name ?? string.Empty;
             _version = version ?? string.Empty;
             _releaseDate = releaseDate ?? string.Empty;
             var context = new TechSupportContext();
             _productController = new ProductController(context);
+
+            //Implementing maximum lengths to keep textBoxes in accordance with DB constraints.
+            textBox_ProductCode.MaxLength = 10;
+            textBox_ProductName.MaxLength = 50;
+
+            // Attach validating events for each TextBox
+            textBox_ProductCode.Validating += TextBox_ProductCode_Validating;
+            textBox_ProductName.Validating += TextBox_ProductName_Validating;
+            textBox_ProductVersion.Validating += TextBox_ProductVersion_Validating;
+            dtp_ReleaseDate.Validating += Dtp_ReleaseDate_Validating;
         }
         //Set the Form depending on Form title
         private void frm_Add_Edit_Load(object sender, EventArgs e)
@@ -74,11 +90,13 @@ namespace TechSupport.Views
             DateTime ReleaseDate = dtp_ReleaseDate.Value;
 
             // Parse the Version and ReleaseDate with error handling
+
             if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
             {
                 MessageBox.Show("Please enter a valid version number.");
                 return;
             }
+
 
             //Creating a new Product instance
             Product newProduct = new Product
@@ -137,6 +155,60 @@ namespace TechSupport.Views
         }
 
 
+        // VALIDATION
+        /*No error messages as all messages are handled from within ValidatorUtils_________________________________________________________________________________*/
+        private void TextBox_ProductCode_Validating(object? sender, CancelEventArgs e)
+        {
+            if (this.ActiveControl is Button) // Check to see if cancel button is clicked
+            {
+                return; // Skip validation
+            }
+            if (!ValidatorUtils.IsPresent(textBox_ProductCode) || (!ValidatorUtils.IsAlphanumeric(textBox_ProductCode)))
+            {
+                e.Cancel = true; // Prevent focus from leaving the TextBox
+            }
+        }
+
+        private void TextBox_ProductName_Validating(object? sender, CancelEventArgs e)
+        {
+            if (this.ActiveControl is Button) // Check to see if cancel button is clicked
+            {
+                return; // Skip validation
+            }
+            if (!ValidatorUtils.IsPresent(textBox_ProductName) || (!ValidatorUtils.IsAlphanumeric(textBox_ProductName)))
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void TextBox_ProductVersion_Validating(object? sender, CancelEventArgs e)
+        {
+            if (this.ActiveControl is Button) // Check to see if cancel button is clicked
+            {
+                return; // Skip validation
+            }
+            if (!ValidatorUtils.IsNonNegative(textBox_ProductVersion))
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void Dtp_ReleaseDate_Validating(object? sender, CancelEventArgs e)
+        {
+            if (this.ActiveControl is Button) // Check to see if cancel button is clicked
+            {
+                return; // Skip validation
+            }
+            if (!ValidatorUtils.IsValidDate(dtp_ReleaseDate))
+            {
+                e.Cancel = true;
+            }
+        }
+
+        private void button_Cancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
 

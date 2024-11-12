@@ -1,5 +1,5 @@
-using TechSupport.Controllers; // Ensure you have the correct namespace for ProductController
-using TechSupport.Models; // Ensure you have the correct namespace for Product
+using TechSupport.Controllers;
+using TechSupport.Models;
 
 
 namespace TechSupport.Views
@@ -18,6 +18,26 @@ namespace TechSupport.Views
         private void Form1_Load(object sender, EventArgs e)
         {
             PopulateListBox();
+        }
+
+
+
+        // ON LOAD METHOD 
+        /*___________________________________________________________________________________________________________ */
+
+        private void PopulateListBox()
+        {
+            // Clear existing items in the ListBox
+            listBox_Data.Items.Clear();
+
+            // Retrieve products from the database
+            var products = ProductController.GetProducts(); // Grabbing Products from DB and assigning to products.
+
+            // Add each product to the ListBox using the overridden ToString() method
+            foreach (var product in products)
+            {
+                listBox_Data.Items.Add(product.ToString());
+            }
         }
 
 
@@ -44,34 +64,6 @@ namespace TechSupport.Views
         {
             HandleExitButton();
         }
-
-
-
-        /// <summary>
-        /// Method being called on Load
-        /// </summary>
-
-        private void PopulateListBox()
-        {
-            // Clear existing items in the ListBox
-            listBox_Data.Items.Clear();
-
-            // Retrieve products from the database
-            var products = ProductController.GetProducts(); // Grabbing Products from DB and assigning to products.
-
-            // Add each product to the ListBox using the overridden ToString() method
-            foreach (var product in products)
-            {
-                listBox_Data.Items.Add(product.ToString());
-            }
-        }
-
-        /// <summary>
-        /// Refresh the main page when the second form closes
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-
 
 
 

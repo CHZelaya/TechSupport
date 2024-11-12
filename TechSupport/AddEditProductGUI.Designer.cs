@@ -35,7 +35,6 @@ namespace TechSupport.Views
             label4 = new Label();
             textBox_ProductCode = new TextBox();
             textBox_ProductName = new TextBox();
-            textBox_ProductReleaseDate = new TextBox();
             textBox_ProductVersion = new TextBox();
             button_OK = new Button();
             button_Cancel = new Button();
@@ -84,6 +83,7 @@ namespace TechSupport.Views
             textBox_ProductCode.Name = "textBox_ProductCode";
             textBox_ProductCode.Size = new Size(125, 27);
             textBox_ProductCode.TabIndex = 4;
+            textBox_ProductCode.Tag = "Product Code";
             // 
             // textBox_ProductName
             // 
@@ -91,13 +91,7 @@ namespace TechSupport.Views
             textBox_ProductName.Name = "textBox_ProductName";
             textBox_ProductName.Size = new Size(231, 27);
             textBox_ProductName.TabIndex = 5;
-            // 
-            // textBox_ProductReleaseDate
-            // 
-            textBox_ProductReleaseDate.Location = new Point(152, 334);
-            textBox_ProductReleaseDate.Name = "textBox_ProductReleaseDate";
-            textBox_ProductReleaseDate.Size = new Size(125, 27);
-            textBox_ProductReleaseDate.TabIndex = 7;
+            textBox_ProductName.Tag = "Product Name";
             // 
             // textBox_ProductVersion
             // 
@@ -105,6 +99,7 @@ namespace TechSupport.Views
             textBox_ProductVersion.Name = "textBox_ProductVersion";
             textBox_ProductVersion.Size = new Size(125, 27);
             textBox_ProductVersion.TabIndex = 6;
+            textBox_ProductVersion.Tag = "Version";
             // 
             // button_OK
             // 
@@ -126,6 +121,7 @@ namespace TechSupport.Views
             button_Cancel.TabIndex = 9;
             button_Cancel.Text = "&Cancel";
             button_Cancel.UseVisualStyleBackColor = true;
+            button_Cancel.Click += button_Cancel_Click;
             // 
             // dtp_ReleaseDate
             // 
@@ -133,6 +129,7 @@ namespace TechSupport.Views
             dtp_ReleaseDate.Name = "dtp_ReleaseDate";
             dtp_ReleaseDate.Size = new Size(250, 27);
             dtp_ReleaseDate.TabIndex = 10;
+            dtp_ReleaseDate.Tag = "Release Date";
             // 
             // frm_Add_Edit
             // 
@@ -143,7 +140,6 @@ namespace TechSupport.Views
             Controls.Add(button_Cancel);
             Controls.Add(button_OK);
             Controls.Add(textBox_ProductVersion);
-            Controls.Add(textBox_ProductReleaseDate);
             Controls.Add(textBox_ProductName);
             Controls.Add(textBox_ProductCode);
             Controls.Add(label4);
@@ -167,7 +163,6 @@ namespace TechSupport.Views
         private Label label4;
         private TextBox textBox_ProductCode;
         private TextBox textBox_ProductName;
-        private TextBox textBox_ProductReleaseDate;
         private TextBox textBox_ProductVersion;
         private Button button_OK;
         private Button button_Cancel;
