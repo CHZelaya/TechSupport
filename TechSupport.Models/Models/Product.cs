@@ -1,4 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿/*
+ * Course: Rapid Application Development
+ * Class Code: CPRG 200
+ * Assignment Name: Lab 3 - Tech Support WinForms App
+ * Date: Thursday, November 14, 2024
+ * Author: Carlos Hernandez-Zelaya
+ * 
+ * Lab Purpose: 
+ * This lab focuses on using Entity Framework Database First to retrieve data 
+ * and perform DML operations in a Windows Forms application for managing 
+ * products in a tech support database.
+ */
+
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

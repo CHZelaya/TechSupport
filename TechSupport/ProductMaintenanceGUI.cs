@@ -1,10 +1,23 @@
+/*
+ * Course: Rapid Application Development
+ * Class Code: CPRG 200
+ * Assignment Name: Lab 3 - Tech Support WinForms App
+ * Date: Thursday, November 14, 2024
+ * Author: Carlos Hernandez-Zelaya
+ * 
+ * Lab Purpose: 
+ * This lab focuses on using Entity Framework Database First to retrieve data 
+ * and perform DML operations in a Windows Forms application for managing 
+ * products in a tech support database.
+ */
+
 using TechSupport.Controllers;
 using TechSupport.Models;
 
 
 namespace TechSupport.Views
 {
-    // This class represents the GUI for managing product information
+
     public partial class ProductMaintenanceGUI : Form
     {
         // Controller instance to manage product-related operations
@@ -18,10 +31,10 @@ namespace TechSupport.Views
             _productController = new ProductController(context); // Initialize the product controller with context
         }
 
-        // Event handler for form load event
+
         private void Form1_Load(object sender, EventArgs e)
         {
-            PopulateListBox(); // Populate the ListBox with product data on form load
+            PopulateListBox();
         }
 
         // ON LOAD METHOD
@@ -72,7 +85,7 @@ namespace TechSupport.Views
         // EVENT HANDLER LOGIC
         /*___________________________________________________________________________________________________________ */
 
-        // Logic for handling the Add button click
+
         private void HandleAddBtnClick()
         {
             // Create an instance of the add/edit form with no initial data (for adding)
@@ -87,10 +100,8 @@ namespace TechSupport.Views
             addEditProductForm.Show();
         }
 
-        // Logic for handling the Modify button click
         private void HandleModifyBtnClick()
         {
-            // Convert the selected item to a string to pass to the edit form
             string? selectedItem = listBox_Data.SelectedItem?.ToString();
 
             if (selectedItem != null)
@@ -102,11 +113,9 @@ namespace TechSupport.Views
                 // Create an instance of the add/edit form with existing data (for modification)
                 frm_Add_Edit addEditProductForm = new frm_Add_Edit(productCode, name, version, releaseDate);
 
-                // Subscribe to the FormClosed event to refresh data when the form is closed
                 addEditProductForm.FormClosed += AddEditProductForm_FormClosed;
                 addEditProductForm.Text = "Modify Product";
 
-                // Display the add/edit form
                 addEditProductForm.Show();
             }
             else
@@ -119,11 +128,10 @@ namespace TechSupport.Views
         // Utility method to trim whitespace from product details in the selected item
         private static void TrimWhiteSpace(string? selectedItem, out string productCode, out string name, out string version, out string releaseDate)
         {
-            // Define the total widths for each field
-            int codeWidth = 15;    // Width for ProductCode
-            int nameWidth = 40;    // Width for Name
-            int versionWidth = 11; // Width for Version
-            int dateWidth = 15;    // Width for ReleaseDate
+            int codeWidth = 15;
+            int nameWidth = 40;
+            int versionWidth = 11;
+            int dateWidth = 15;
 
             // Extract and trim each component from the selected item based on predefined widths
             productCode = selectedItem.Substring(0, codeWidth).Trim();
@@ -132,10 +140,8 @@ namespace TechSupport.Views
             releaseDate = selectedItem.Substring(codeWidth + nameWidth + versionWidth, dateWidth).Trim();
         }
 
-        // Logic for handling the Exit button click
         private static void HandleExitButton()
         {
-            // Show a confirmation dialog before exiting
             DialogResult result = MessageBox.Show("Are you sure you want to exit the application?",
                                                   "Exit Confirmation",
                                                   MessageBoxButtons.YesNo,
@@ -148,16 +154,14 @@ namespace TechSupport.Views
             }
         }
 
-        // Logic for handling the Remove button click
         private void HandleRemoveBtnClick()
         {
-            // Convert the selected item to a string to identify the product code
             string? selectedItem = listBox_Data.SelectedItem?.ToString();
             string productCode;
 
             if (selectedItem != null)
             {
-                int codeWidth = 15; // Width for ProductCode
+                int codeWidth = 15;
                 productCode = selectedItem.Substring(0, codeWidth).Trim();
 
                 try
@@ -198,7 +202,6 @@ namespace TechSupport.Views
             }
         }
 
-        // Event handler triggered when the add/edit form is closed
         private void AddEditProductForm_FormClosed(object? sender, FormClosedEventArgs e)
         {
             // Clear and refresh the ListBox with updated product data

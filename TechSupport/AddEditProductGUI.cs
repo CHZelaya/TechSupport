@@ -1,4 +1,17 @@
-﻿using System.ComponentModel;
+﻿/*
+ * Course: Rapid Application Development
+ * Class Code: CPRG 200
+ * Assignment Name: Lab 3 - Tech Support WinForms App
+ * Date: Thursday, November 14, 2024
+ * Author: Carlos Hernandez-Zelaya
+ * 
+ * Lab Purpose: 
+ * This lab focuses on using Entity Framework Database First to retrieve data 
+ * and perform DML operations in a Windows Forms application for managing 
+ * products in a tech support database.
+ */
+
+using System.ComponentModel;
 using TechSupport.Controllers;
 using TechSupport.Models;
 
@@ -26,15 +39,16 @@ namespace TechSupport.Views
             _version = version ?? string.Empty;
             _releaseDate = releaseDate ?? string.Empty;
 
-            // Initialize the database context and product controller
             var context = new TechSupportContext();
             _productController = new ProductController(context);
 
             // Set maximum lengths for text boxes according to database constraints
             textBox_ProductCode.MaxLength = 10;
             textBox_ProductName.MaxLength = 50;
+            textBox_ProductVersion.MaxLength = 16;
 
             // Attach validating events for each TextBox to ensure valid input
+            //Used this method to avoid having to attach event handlers via toolbox/properties.
             textBox_ProductCode.Validating += TextBox_ProductCode_Validating;
             textBox_ProductName.Validating += TextBox_ProductName_Validating;
             textBox_ProductVersion.Validating += TextBox_ProductVersion_Validating;
@@ -65,10 +79,9 @@ namespace TechSupport.Views
             }
         }
 
-        // Event handler for the OK button click
         private void button_OK_Click(object sender, EventArgs e)
         {
-            // Determine if we are adding or modifying a product
+            // Determine if user is adding or modifying a product
             if (this.Text == "Add Product")
             {
                 HandleAddProduct();
@@ -79,7 +92,6 @@ namespace TechSupport.Views
             }
         }
 
-        // Method to handle adding a new product
         private void HandleAddProduct()
         {
             string ProductCode = textBox_ProductCode.Text;
@@ -87,35 +99,53 @@ namespace TechSupport.Views
             decimal Version;
             DateTime ReleaseDate = dtp_ReleaseDate.Value;
 
-            // Attempt to parse the Version input with error handling
-            if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
-            {
-                MessageBox.Show("Please enter a valid version number.");
-                return; // Exit if parsing fails
-            }
+            // Call utiility method to see if the product already exists in the DB before attempting to add.
+            bool productCodeExists = CheckProductCodeExists(ProductCode);
 
-            // Create a new Product instance with the collected data
-            Product newProduct = new Product
+            if (!productCodeExists)
             {
-                ProductCode = ProductCode,
-                Name = Name,
-                Version = Version,
-                ReleaseDate = ReleaseDate
-            };
 
-            // Try to add the product to the database and handle any exceptions
-            try
-            {
-                _productController.AddProduct(newProduct); // Call to controller to add product
-                this.Close(); // Close the form after successful addition
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"An error occurred adding the product to the Database: {ex.Message}");
+                // Attempt to parse the Version input with error handling
+                if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
+                {
+                    MessageBox.Show("Please enter a valid version number.");
+                    return; // Exit if parsing fails
+                }
+
+                Product newProduct = new Product
+                {
+                    ProductCode = ProductCode,
+                    Name = Name,
+                    Version = Version,
+                    ReleaseDate = ReleaseDate
+                };
+
+                // Try to add the product to the database and handle any exceptions
+                try
+                {
+                    _productController.AddProduct(newProduct); // Call to controller to add product
+                    this.Close(); // Close the form after successful addition
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"An error occurred adding the product to the Database: {ex.Message}");
+                }
             }
         }
 
-        // Method to handle modifying an existing product
+        //Utility method checking to see if the Product Code already exists in the DB before attempting to add.
+        private bool CheckProductCodeExists(string ProductCode)
+        {
+            var productToCheck = _productController.GetProductByCode(ProductCode);
+            if (productToCheck != null)
+            {
+                MessageBox.Show($"Product Code already exists in the DB, please update the existing entry ({ProductCode}) or change the Product Code");
+                return true;
+            }
+            else return false;
+
+        }
+
         private void HandleModifyProduct()
         {
             string ProductCode = textBox_ProductCode.Text;
@@ -153,6 +183,7 @@ namespace TechSupport.Views
 
         // VALIDATION METHODS
         /* All validation messages are handled within ValidatorUtils */
+        /*_____________________________________________________________________________________________________________ */
 
         // Validate the Product Code TextBox input
         private void TextBox_ProductCode_Validating(object? sender, CancelEventArgs e)
@@ -172,10 +203,9 @@ namespace TechSupport.Views
         // Validate the Product Name TextBox input
         private void TextBox_ProductName_Validating(object? sender, CancelEventArgs e)
         {
-            // Skip validation if the cancel button is clicked
             if (this.ActiveControl is Button)
             {
-                return; // Skip validation
+                return;
             }
             // Validate presence and alphanumeric characters
             if (!ValidatorUtils.IsPresent(textBox_ProductName) || (!ValidatorUtils.IsAlphanumeric(textBox_ProductName)))
@@ -187,10 +217,9 @@ namespace TechSupport.Views
         // Validate the Product Version TextBox input
         private void TextBox_ProductVersion_Validating(object? sender, CancelEventArgs e)
         {
-            // Skip validation if the cancel button is clicked
             if (this.ActiveControl is Button)
             {
-                return; // Skip validation
+                return;
             }
             // Validate that the version is non-negative
             if (!ValidatorUtils.IsNonNegative(textBox_ProductVersion))
@@ -202,7 +231,6 @@ namespace TechSupport.Views
         // Validate the Release Date DateTimePicker input
         private void Dtp_ReleaseDate_Validating(object? sender, CancelEventArgs e)
         {
-            // Skip validation if the cancel button is clicked
             if (this.ActiveControl is Button)
             {
                 return; // Skip validation
@@ -214,7 +242,6 @@ namespace TechSupport.Views
             }
         }
 
-        // Event handler for the Cancel button click
         private void button_Cancel_Click(object sender, EventArgs e)
         {
             this.Close(); // Close the form when cancel is clicked
