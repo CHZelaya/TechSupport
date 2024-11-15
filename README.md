@@ -19,7 +19,7 @@
   - ✅ Display appropriate title and input fields based on the operation.
   - ✅ Implement data validation:
     - ✅ Limit character input in text boxes.
-    - ❌ Validate the release date format.
+    - ✅ Validate the release date format.
     - ✅ Disable Product Code field during modification.
 
 5. **Apply Professional Design**  
@@ -27,17 +27,17 @@
   - ✅ Use meaningful control names.
 
 6. **Code Documentation**  
-  - ❌ Add top block comments to each code file:
-    - ❌ Purpose of the module/class.
-    - ❌ Date created (at least month and year).
-    - ❌ Author’s name.
-  - ❌ Comment each method explaining its purpose.
-  - ❌ Comment each variable to explain its meaning.
-  - ❌ Add comments for groups of statements performing a single task.
+  - ✅ Add top block comments to each code file:
+    - ✅ Purpose of the module/class.
+    - ✅ Date created (at least month and year).
+    - ✅ Author’s name.
+  - ✅ Comment each method explaining its purpose.
+  - ✅ Comment each variable to explain its meaning.
+  - ✅ Add comments for groups of statements performing a single task.
 
 7. **Testing and Submission**  
-  - ❌ Test the application thoroughly to ensure all features work as expected.
-  - ❌ Zip the entire project folder and submit to the appropriate Dropbox on D2L.
+  - ✅ Test the application thoroughly to ensure all features work as expected.
+  - ✅ Zip the entire project folder and submit to the appropriate Dropbox on D2L.
 
 ### Recommended Task Order
 
