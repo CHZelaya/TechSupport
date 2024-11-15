@@ -47,17 +47,41 @@ namespace TechSupport.Views
             textBox_ProductName.MaxLength = 50;
             textBox_ProductVersion.MaxLength = 16;
 
+            //Subscribe to textBox changes to enable OK button
+
+            textBox_ProductCode.TextChanged += TextBox_TextChanged;
+            textBox_ProductName.TextChanged += TextBox_TextChanged;
+            textBox_ProductVersion.TextChanged += TextBox_TextChanged;
+
             // Attach validating events for each TextBox to ensure valid input
             //Used this method to avoid having to attach event handlers via toolbox/properties.
             textBox_ProductCode.Validating += TextBox_ProductCode_Validating;
             textBox_ProductName.Validating += TextBox_ProductName_Validating;
-            textBox_ProductVersion.Validating += TextBox_ProductVersion_Validating;
-            dtp_ReleaseDate.Validating += Dtp_ReleaseDate_Validating;
+
+        }
+
+        // Utility method watching the textboxes for changes
+        private void TextBox_TextChanged(object? sender, EventArgs e)
+        {
+            checkTextBoxes();
+        }
+
+        // Helper method being called whenever change in the textboxes is detected.
+        //Enables OK button when all textboxes are filled.
+        private void checkTextBoxes()
+        {
+            bool AllFilled = !string.IsNullOrWhiteSpace(textBox_ProductCode.Text) &&
+                             !string.IsNullOrWhiteSpace(textBox_ProductName.Text) &&
+                             !string.IsNullOrWhiteSpace(textBox_ProductVersion.Text);
+
+            button_OK.Enabled = AllFilled;
         }
 
         // Event handler for form load to set up the form based on the title
         private void frm_Add_Edit_Load(object sender, EventArgs e)
         {
+
+            button_OK.Enabled = false;
             if (this.Text == "Modify Product")
             {
                 // Populate text boxes with existing product data
@@ -79,11 +103,17 @@ namespace TechSupport.Views
             }
         }
 
+
+
+
+
+
         private void button_OK_Click(object sender, EventArgs e)
         {
             // Determine if user is adding or modifying a product
             if (this.Text == "Add Product")
             {
+
                 HandleAddProduct();
             }
             else if (this.Text == "Modify Product")
@@ -92,12 +122,17 @@ namespace TechSupport.Views
             }
         }
 
+
+
+
+
+
         private void HandleAddProduct()
         {
             string ProductCode = textBox_ProductCode.Text;
             string Name = textBox_ProductName.Text;
             decimal Version;
-            DateTime ReleaseDate = dtp_ReleaseDate.Value;
+            DateTime ReleaseDate = dtp_ReleaseDate.Value.Date;
 
             // Call utiility method to see if the product already exists in the DB before attempting to add.
             bool productCodeExists = CheckProductCodeExists(ProductCode);
@@ -108,8 +143,20 @@ namespace TechSupport.Views
                 // Attempt to parse the Version input with error handling
                 if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
                 {
-                    MessageBox.Show("Please enter a valid version number.");
+                    errorProvider3.SetError(textBox_ProductVersion, "Must be a decimal");
+                    //MessageBox.Show("Please enter a valid version number.");
                     return; // Exit if parsing fails
+                }
+                else if (Version < 0)
+                {
+                    errorProvider3.SetError(textBox_ProductVersion, "Cannot be a negative number");
+                    //MessageBox.Show("Cannot be a negative number");
+                    return;
+                }
+                else errorProvider3.SetError(textBox_ProductVersion, string.Empty);
+                if (!ValidatorUtils.IsValidDate(dtp_ReleaseDate))
+                {
+                    return;
                 }
 
                 Product newProduct = new Product
@@ -133,6 +180,8 @@ namespace TechSupport.Views
             }
         }
 
+
+
         //Utility method checking to see if the Product Code already exists in the DB before attempting to add.
         private bool CheckProductCodeExists(string ProductCode)
         {
@@ -146,12 +195,15 @@ namespace TechSupport.Views
 
         }
 
+
+
+
         private void HandleModifyProduct()
         {
             string ProductCode = textBox_ProductCode.Text;
             string Name = textBox_ProductName.Text;
             decimal Version;
-            DateTime ReleaseDate = dtp_ReleaseDate.Value;
+            DateTime ReleaseDate = dtp_ReleaseDate.Value.Date;
 
             // Attempt to parse the Version input with error handling
             if (!decimal.TryParse(textBox_ProductVersion.Text, out Version))
@@ -159,6 +211,16 @@ namespace TechSupport.Views
                 MessageBox.Show("Please enter a valid version number.");
                 return; // Exit if parsing fails
             }
+            else if (Version < 0)
+            {
+                MessageBox.Show("Cannot be a negative number");
+                return;
+            }
+            if (ValidatorUtils.IsValidDate(dtp_ReleaseDate))
+            {
+                return;
+            }
+
 
             // Create a new Product instance for updating
             Product productToUpdate = new Product
@@ -181,6 +243,13 @@ namespace TechSupport.Views
             }
         }
 
+
+
+
+
+
+
+
         // VALIDATION METHODS
         /* All validation messages are handled within ValidatorUtils */
         /*_____________________________________________________________________________________________________________ */
@@ -196,8 +265,10 @@ namespace TechSupport.Views
             // Validate presence and alphanumeric characters
             if (!ValidatorUtils.IsPresent(textBox_ProductCode) || (!ValidatorUtils.IsAlphanumeric(textBox_ProductCode)))
             {
+                errorProvider1.SetError(textBox_ProductCode, "Input cannot be empty and can only be AlphaNumeric");
                 e.Cancel = true; // Prevent focus from leaving the TextBox if validation fails
             }
+
         }
 
         // Validate the Product Name TextBox input
@@ -210,37 +281,16 @@ namespace TechSupport.Views
             // Validate presence and alphanumeric characters
             if (!ValidatorUtils.IsPresent(textBox_ProductName) || (!ValidatorUtils.IsAlphanumeric(textBox_ProductName)))
             {
+                errorProvider2.SetError(textBox_ProductName, "Input cannot be empty and can only be AlphaNumeric");
                 e.Cancel = true; // Prevent focus from leaving the TextBox if validation fails
+            }
+            else
+            {
+                errorProvider2.SetError(textBox_ProductName, string.Empty);
             }
         }
 
-        // Validate the Product Version TextBox input
-        private void TextBox_ProductVersion_Validating(object? sender, CancelEventArgs e)
-        {
-            if (this.ActiveControl is Button)
-            {
-                return;
-            }
-            // Validate that the version is non-negative
-            if (!ValidatorUtils.IsNonNegative(textBox_ProductVersion))
-            {
-                e.Cancel = true; // Prevent focus from leaving the TextBox if validation fails
-            }
-        }
 
-        // Validate the Release Date DateTimePicker input
-        private void Dtp_ReleaseDate_Validating(object? sender, CancelEventArgs e)
-        {
-            if (this.ActiveControl is Button)
-            {
-                return; // Skip validation
-            }
-            // Validate that the date is valid
-            if (!ValidatorUtils.IsValidDate(dtp_ReleaseDate))
-            {
-                e.Cancel = true; // Prevent focus from leaving the DateTimePicker if validation fails
-            }
-        }
 
         private void button_Cancel_Click(object sender, EventArgs e)
         {

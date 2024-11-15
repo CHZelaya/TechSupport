@@ -18,7 +18,7 @@ namespace TechSupport.Views
             if (textBox.Text == "") // Check if the textbox is empty
             {
                 isValid = false;
-                MessageBox.Show($"{textBox.Tag} field is empty");
+                //MessageBox.Show($"{textBox.Tag} field is empty");
                 textBox.Focus();
             }
             return isValid;
@@ -64,7 +64,10 @@ namespace TechSupport.Views
         /// <returns>True if the date is valid; false otherwise.</returns>
         public static bool IsValidDate(DateTimePicker dateTimePicker)
         {
-            DateTime minDate = new DateTime(2012, 1, 1);
+            //As the first entry in the DB is in 2012, assuming the company started in 2012.
+            //Ergo, Release Dates cannot be before 2012.
+
+            DateTime minDate = new DateTime(2012, 1, 1, 0, 0, 0, DateTimeKind.Utc);
             DateTime maxDate = DateTime.Today.AddYears(5);
 
             bool isValid = true;

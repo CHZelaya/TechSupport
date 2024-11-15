@@ -91,7 +91,7 @@ namespace TechSupport.Controllers
             _context.SaveChanges();
         }
 
-        public Product GetProductByCode(string productCode)
+        public Product? GetProductByCode(string productCode)
         {
             if (string.IsNullOrEmpty(productCode))
             {
@@ -102,14 +102,8 @@ namespace TechSupport.Controllers
                 // Retrieve the product from the database
                 var product = _context.Products.FirstOrDefault(p => p.ProductCode == productCode);
 
-                if (product == null)
-                {
-                    throw new KeyNotFoundException($"Product with code '{productCode}' not found.");
-                }
-
                 return product;
             }
-
         }
     }
 }

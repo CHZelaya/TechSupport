@@ -29,6 +29,7 @@ namespace TechSupport.Views
         /// </summary>
         private void InitializeComponent()
         {
+            components = new System.ComponentModel.Container();
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
@@ -39,6 +40,12 @@ namespace TechSupport.Views
             button_OK = new Button();
             button_Cancel = new Button();
             dtp_ReleaseDate = new DateTimePicker();
+            errorProvider1 = new ErrorProvider(components);
+            errorProvider2 = new ErrorProvider(components);
+            errorProvider3 = new ErrorProvider(components);
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider2).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider3).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -131,6 +138,18 @@ namespace TechSupport.Views
             dtp_ReleaseDate.TabIndex = 10;
             dtp_ReleaseDate.Tag = "Release Date";
             // 
+            // errorProvider1
+            // 
+            errorProvider1.ContainerControl = this;
+            // 
+            // errorProvider2
+            // 
+            errorProvider2.ContainerControl = this;
+            // 
+            // errorProvider3
+            // 
+            errorProvider3.ContainerControl = this;
+            // 
             // frm_Add_Edit
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -149,6 +168,9 @@ namespace TechSupport.Views
             Name = "frm_Add_Edit";
             Text = "Add/Edit Product";
             Load += frm_Add_Edit_Load;
+            ((System.ComponentModel.ISupportInitialize)errorProvider1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider2).EndInit();
+            ((System.ComponentModel.ISupportInitialize)errorProvider3).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -167,5 +189,8 @@ namespace TechSupport.Views
         private Button button_OK;
         private Button button_Cancel;
         private DateTimePicker dtp_ReleaseDate;
+        private ErrorProvider errorProvider1;
+        private ErrorProvider errorProvider2;
+        private ErrorProvider errorProvider3;
     }
 }
